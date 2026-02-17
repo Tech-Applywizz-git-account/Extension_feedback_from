@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autofill extension feedback form</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Autofill extension feedback form</h1>
+            <p>We value your feedback to improve the extension.</p>
+        </header>
+
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Feedback description</label>
+                <textarea id="description" name="description" placeholder="Tell us about your experience..." rows="5"
+                    required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="screenshot">Related Screenshot</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="screenshot" name="screenshot" accept="image/*" required>
+                    <span class="file-custom">Choose image...</span>
+                </div>
+                <div id="imagePreview" class="image-preview">
+                    <!-- Preview image will be injected here -->
+                    <button type="button" id="removeImage" class="remove-image" title="Remove image">&times;</button>
+                </div>
+                <small>Max size: 5MB</small>
+            </div>
+
+            <button type="submit" id="submitBtn">
+                <span class="btn-text">Submit Feedback</span>
+                <span class="loader"></span>
+            </button>
+        </form>
+
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
