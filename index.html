@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="ca_name">User Name (Name)</label>
+                            <label for="ca_name">CA Name (Name)</label>
                             <div class="searchable-select">
                                 <input type="text" id="ca_name" name="ca_name" placeholder="Search or enter CA name..."
                                     autocomplete="off">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="ca_email">User Email (Email)</label>
+                            <label for="ca_email">CA Email (Email)</label>
                             <div class="searchable-select">
                                 <input type="email" id="ca_email" name="ca_email"
                                     placeholder="Search or enter CA email..." autocomplete="off">
@@ -75,15 +75,32 @@
                 <section id="feedback" class="tab-pane active">
                     <h2>Send Feedback</h2>
                     <form id="feedbackForm">
+
                         <div class="form-group">
-                            <label for="username">Name</label>
-                            <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                            <label for="feedbackEmailSearch">Client Email</label>
+                            <div class="searchable-select">
+                                <input type="text" id="feedbackEmailSearch"
+                                    placeholder="Search or select a client email..." autocomplete="off">
+                                <div id="feedbackEmailOptions" class="options-list">
+                                    <!-- Options will be rendered here -->
+                                </div>
+                                <input type="hidden" id="email" name="email">
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            <label for="feedbackNameSearch">Client Name</label>
+                            <div class="searchable-select">
+                                <input type="text" id="feedbackNameSearch"
+                                    placeholder="Search or select a client name..." autocomplete="off">
+                                <div id="feedbackNameOptions" class="options-list">
+                                    <!-- Options will be rendered here -->
+                                </div>
+                                <input type="hidden" id="username" name="username">
+                            </div>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="description">Description (Feedback/Bugs)</label>
