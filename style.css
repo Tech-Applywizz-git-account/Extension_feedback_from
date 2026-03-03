@@ -259,6 +259,57 @@ textarea {
     color: #9a3412;
     margin-bottom: 0.8rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.search-box-unassigned {
+    width: 100%;
+}
+
+#unassignedSearch {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #9a3412;
+    background: white;
+    transition: all 0.2s;
+}
+
+#unassignedSearch:focus {
+    outline: none;
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.filter-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.filter-tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background: #fff;
+    border: 1px solid #fed7aa;
+    color: #c2410c;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-tag:hover {
+    background: #ffedd5;
+}
+
+.filter-tag.active {
+    background: #f97316;
+    color: white;
+    border-color: #f97316;
 }
 
 .count-badge {
@@ -280,6 +331,10 @@ textarea {
 .unassigned-list {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
+    /* Ensure rows start at the top */
+    align-items: flex-start;
+    /* Prevent vertical stretching */
     gap: 8px;
     padding: 0 24px 24px 24px;
     overflow-y: auto;
