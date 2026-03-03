@@ -1,153 +1,3 @@
-// // import { createClient } from '@supabase/supabase-js';
-
-// // // Supabase Configuration using Environment Variables
-// // const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-// // const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// // if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-// //     console.error('Supabase credentials are missing. Please check your .env file.');
-// // }
-
-// // const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// // const feedbackForm = document.getElementById('feedbackForm');
-// // const submitBtn = document.getElementById('submitBtn');
-// // const statusMessage = document.getElementById('statusMessage');
-// // const screenshotInput = document.getElementById('screenshot');
-// // const imagePreview = document.getElementById('imagePreview');
-// // const removeImageBtn = document.getElementById('removeImage');
-// // const toastContainer = document.getElementById('toastContainer');
-
-// // // Toast Notification Helper
-// // function showToast(message, type = 'success') {
-// //     const toast = document.createElement('div');
-// //     toast.className = `toast ${type}`;
-// //     toast.textContent = message;
-
-// //     toastContainer.appendChild(toast);
-
-// //     // Auto-remove after 4 seconds
-// //     setTimeout(() => {
-// //         toast.classList.add('fade-out');
-// //         setTimeout(() => {
-// //             toast.remove();
-// //         }, 300);
-// //     }, 4000);
-// // }
-
-// // // Helper to update preview
-// // function updatePreview(file) {
-// //     if (file) {
-// //         const reader = new FileReader();
-// //         reader.onload = function (e) {
-// //             // Remove existing images if any
-// //             const existingImg = imagePreview.querySelector('img');
-// //             if (existingImg) existingImg.remove();
-
-// //             const img = document.createElement('img');
-// //             img.src = e.target.result;
-// //             img.alt = "Preview";
-// //             imagePreview.prepend(img);
-// //             imagePreview.style.display = 'block';
-// //         }
-// //         reader.readAsDataURL(file);
-// //     } else {
-// //         const existingImg = imagePreview.querySelector('img');
-// //         if (existingImg) existingImg.remove();
-// //         imagePreview.style.display = 'none';
-// //     }
-// // }
-
-// // // Update filename and show preview
-// // screenshotInput.addEventListener('change', (e) => {
-// //     const file = e.target.files[0];
-// //     const fileName = file ? file.name : "Choose image...";
-// //     document.querySelector('.file-custom').textContent = fileName;
-// //     updatePreview(file);
-// // });
-
-// // // Remove image logic
-// // removeImageBtn.addEventListener('click', (e) => {
-// //     e.stopPropagation();
-// //     screenshotInput.value = ''; // Reset file input
-// //     document.querySelector('.file-custom').textContent = "Choose image...";
-// //     updatePreview(null);
-// // });
-
-// // feedbackForm.addEventListener('submit', async (e) => {
-// //     e.preventDefault();
-
-// //     // Clear previous status
-// //     statusMessage.style.display = 'none';
-// //     statusMessage.className = 'status-message';
-
-// //     // Set loading state
-// //     submitBtn.disabled = true;
-// //     submitBtn.classList.add('loading');
-
-// //     try {
-// //         const username = document.getElementById('username').value;
-// //         const email = document.getElementById('email').value;
-// //         const description = document.getElementById('description').value;
-// //         const file = screenshotInput.files[0];
-
-// //         if (!file) throw new Error("Please select a screenshot.");
-
-// //         // 1. Upload Screenshot to Supabase Storage
-// //         const fileExt = file.name.split('.').pop();
-// //         const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-// //         const filePath = `screenshots/${fileName}`;
-
-// //         let { error: uploadError, data: uploadData } = await supabase.storage
-// //             .from('feedback_screenshots')
-// //             .upload(filePath, file);
-
-// //         if (uploadError) throw uploadError;
-
-// //         // Get public URL
-// //         const { data: { publicUrl } } = supabase.storage
-// //             .from('feedback_screenshots')
-// //             .getPublicUrl(filePath);
-
-// //         // 2. Insert Feedback into Database (Table: feedbacks)
-// //         const { error: insertError } = await supabase
-// //             .from('feedbacks') // Updated to match your existing table
-// //             .insert([
-// //                 {
-// //                     username: username,
-// //                     email: email, // Added email field
-// //                     description: description,
-// //                     screenshot_url: publicUrl
-// //                 }
-// //             ]);
-
-// //         if (insertError) throw insertError;
-
-// //         // Success!
-// //         showToast("Thanks for your feedback!");
-// //         feedbackForm.reset();
-// //         document.querySelector('.file-custom').textContent = "Choose image...";
-// //         updatePreview(null);
-
-// //     } catch (error) {
-// //         console.error('Error:', error);
-// //         showToast(error.message || "Something went wrong.", "error");
-// //     } finally {
-// //         submitBtn.disabled = false;
-// //         submitBtn.classList.remove('loading');
-// //     }
-// // });
-
-
-
-
-
-
-
-
-
-
-
 // import { createClient } from '@supabase/supabase-js';
 
 // // Supabase Configuration using Environment Variables
@@ -288,7 +138,11 @@
 
 //         this.input.addEventListener('input', (e) => {
 //             this.render(e.target.value);
-//             if (this.hiddenInput) this.hiddenInput.value = ''; // Clear selection if typing
+//             // Sync hidden input with current text value so manual typing is captured
+//             if (this.hiddenInput) {
+//                 this.hiddenInput.value = e.target.value;
+//                 this.hiddenInput.dispatchEvent(new Event('change'));
+//             }
 //         });
 
 //         document.addEventListener('click', (e) => {
@@ -331,7 +185,11 @@
 
 //     select(value) {
 //         this.input.value = value;
-//         if (this.hiddenInput) this.hiddenInput.value = value;
+//         if (this.hiddenInput) {
+//             this.hiddenInput.value = value;
+//             // Trigger change event for internal logic
+//             this.hiddenInput.dispatchEvent(new Event('change'));
+//         }
 //         this.hide();
 //         if (this.onSelect) this.onSelect(value);
 //     }
@@ -344,6 +202,8 @@
 
 // // Global instances
 // let emailDropdown, nameDropdown, caEmailDropdown;
+// let feedbackNameDropdown, feedbackEmailDropdown;
+// let allUserData = []; // Shared data for cross-population
 
 
 
@@ -386,17 +246,23 @@
 //     try {
 //         const { data, error } = await supabase
 //             .from('user_profiles')
-//             .select('email, ca_name, ca_email');
+//             .select('email, client_name, ca_name, ca_email');
 
 //         if (error) throw error;
+
+//         allUserData = data; // Store globally
 
 //         const emails = data.map(p => p.email);
 //         const names = data.map(p => p.ca_name);
 //         const caEmails = data.map(p => p.ca_email);
+//         const clientNames = data.map(p => p.client_name);
 
 //         emailDropdown.setOptions(emails);
 //         nameDropdown.setOptions(names);
 //         caEmailDropdown.setOptions(caEmails);
+
+//         feedbackNameDropdown.setOptions(clientNames);
+//         feedbackEmailDropdown.setOptions(emails);
 
 //         renderUnassigned(data);
 
@@ -424,10 +290,28 @@
 //     }
 // }
 
+// // Helper for feedback form sync
+// function handleFeedbackNameSelect(name) {
+//     const user = allUserData.find(u => u.client_name === name);
+//     if (user) {
+//         feedbackEmailDropdown.setValue(user.email);
+//     }
+// }
+
+// function handleFeedbackEmailSelect(email) {
+//     const user = allUserData.find(u => u.email === email);
+//     if (user) {
+//         feedbackNameDropdown.setValue(user.client_name);
+//     }
+// }
+
 // // Initialize Dropdowns
 // emailDropdown = new SearchableDropdown('emailSearch', 'emailOptions', 'clientEmail', handleClientEmailSelect);
 // nameDropdown = new SearchableDropdown('ca_name', 'caNameOptions');
 // caEmailDropdown = new SearchableDropdown('ca_email', 'caEmailOptions');
+
+// feedbackNameDropdown = new SearchableDropdown('feedbackNameSearch', 'feedbackNameOptions', 'username', handleFeedbackNameSelect);
+// feedbackEmailDropdown = new SearchableDropdown('feedbackEmailSearch', 'feedbackEmailOptions', 'email', handleFeedbackEmailSelect);
 
 // assignmentForm.addEventListener('submit', async (e) => {
 //     e.preventDefault();
@@ -483,12 +367,23 @@
 //     submitBtn.classList.add('loading');
 
 //     try {
-//         const username = document.getElementById('username').value;
-//         const email = document.getElementById('email').value;
+//         const username = document.getElementById('feedbackNameSearch').value.trim();
+//         const email = document.getElementById('feedbackEmailSearch').value.trim();
 //         const description = document.getElementById('description').value;
 //         const file = screenshotInput.files[0];
 
+//         if (!username || !email) throw new Error("Please enter both client name and email.");
 //         if (!file) throw new Error("Please select a screenshot.");
+
+//         // Update user_profiles client_name for the respective client_email
+//         const { error: profileError } = await supabase
+//             .from('user_profiles')
+//             .update({ client_name: username })
+//             .eq('email', email);
+
+//         if (profileError) {
+//             console.warn('Could not update user profile name:', profileError);
+//         }
 
 //         // 1. Upload Screenshot to Supabase Storage
 //         const fileExt = file.name.split('.').pop();
@@ -558,6 +453,11 @@
 
 
 
+
+
+
+
+
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase Configuration using Environment Variables
@@ -587,9 +487,13 @@ const assignBtn = document.getElementById('assignBtn');
 
 const unassignedContainer = document.getElementById('unassignedContainer');
 const unassignedList = document.getElementById('unassignedList');
-const pendingCountBadge = document.getElementById('pendingCountBadge');
+const unassignedSearchInput = document.getElementById('unassignedSearch');
+const filterTags = document.querySelectorAll('.filter-tag');
 
 let allEmails = [];
+let currentUnassignedProfiles = []; // Store unassigned specifically
+let searchQuery = '';
+let activeFilter = 'all';
 
 // Tab Switching Logic
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -770,37 +674,74 @@ let allUserData = []; // Shared data for cross-population
 
 function renderUnassigned(profiles) {
     unassignedList.innerHTML = '';
-    const unassigned = profiles.filter(p => !p.ca_name || p.ca_name.trim() === '');
+
+    // Store unassigned for reactive filtering
+    currentUnassignedProfiles = profiles.filter(p => !p.ca_name || p.ca_name.trim() === '');
+
+    applyFiltersAndRender();
+}
+
+function applyFiltersAndRender() {
+    unassignedList.innerHTML = '';
+
+    let filtered = currentUnassignedProfiles.filter(profile => {
+        const matchesSearch = profile.email.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesFilter = activeFilter === 'all' || profile.email.toLowerCase().endsWith(activeFilter.toLowerCase());
+        return matchesSearch && matchesFilter;
+    });
 
     if (pendingCountBadge) {
-        pendingCountBadge.textContent = unassigned.length;
+        pendingCountBadge.textContent = filtered.length;
     }
 
-    if (unassigned.length === 0) {
-        unassignedContainer.style.display = 'none';
+    if (filtered.length === 0) {
+        if (currentUnassignedProfiles.length > 0) {
+            unassignedList.innerHTML = '<div class="no-results" style="width:100%; color:#9a3412;">No matching unassigned clients.</div>';
+        } else {
+            unassignedContainer.style.display = 'none';
+        }
         return;
     }
 
     // Only show if the current tab is assignment
-    const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+    const activeTabButton = document.querySelector('.tab-btn.active');
+    const activeTab = activeTabButton ? activeTabButton.getAttribute('data-tab') : null;
+
     if (activeTab === 'assignment') {
         unassignedContainer.style.display = 'flex';
     }
-    unassigned.forEach(profile => {
+
+    filtered.forEach(profile => {
         const item = document.createElement('div');
         item.className = 'unassigned-item';
         item.textContent = profile.email;
         item.title = "Click to assign";
         item.addEventListener('click', () => {
             emailDropdown.select(profile.email);
-            // Smoothly scroll to the form
             assignmentForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Focus the name field
             caNameInput.focus();
         });
         unassignedList.appendChild(item);
     });
 }
+
+// Search Logic
+if (unassignedSearchInput) {
+    unassignedSearchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        applyFiltersAndRender();
+    });
+}
+
+// Filter Tags Logic
+filterTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+        filterTags.forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        activeFilter = tag.getAttribute('data-filter');
+        applyFiltersAndRender();
+    });
+});
 
 async function fetchDropdownData() {
     try {
